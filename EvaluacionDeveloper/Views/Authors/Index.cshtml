@@ -1,0 +1,112 @@
+﻿@model IEnumerable<EvaluacionDeveloper.Models.AuthorModel>
+
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1 >Authors</h1>
+
+    <div style="float:right">
+        <button type="button" data-toggle="modal" data-target="#RegisterNewAuthor" id="LoadRegistrationForm" class="btn btn-outline-success px-3">
+            <i class="fa-solid fa-user-pen"></i>  Add Author
+        </button>
+    </div>
+    <div class="modal fade" id="RegisterNewAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RegisterAuthorTitle">Register Author</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="FirstName">First Name</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="text" name="FirstName" id="FirstName" value="" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="LastName">Last Name</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="text" name="LastName" id="LastName" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="DateOfBirth">Birthdate</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="date" id="DateOfBirth" value=""/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button type="button" id="SubmitAuthor" class="btn btn-outline-success">Register Author</button>
+                    <button hidden id="SubmitEditedAuthor" class="btn btn-outline-success">Save Author</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<table id="RegisteredAuthors" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegisterNewAuthor" id="Edit @item.ID"> 
+                                        Edit
+                                    </button>
+
+                 @Html.ActionLink(
+                  "Books", 
+                  "BooksByAuthor",                         // controller action
+                  "Books",        // controller
+                  new { Author = item.ID },         // action parameters aka route values
+                  new { @class = "btn btn-info" })
+                 @*<button type="button" class="btn btn-info">Books</button>*@
+       @*        <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+              <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts{
+    <script src="~/js/AuthorsJS.js" asp-append-version="true"></script>
+}

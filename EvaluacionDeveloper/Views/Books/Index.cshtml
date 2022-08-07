@@ -1,0 +1,141 @@
+﻿@model IEnumerable<EvaluacionDeveloper.Models.BookModel>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1>Books</h1>
+
+    <div style="float:right"> 
+        <button type="button" data-toggle="modal" data-target="#RegisterNewBook" id="LoadBookRegistration" class="btn btn-outline-success px-3">
+            <i class="fa-solid fa-user-pen"></i>  Add Book
+        </button>
+    </div>
+    <div class="modal fade" id="RegisterNewBook" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RegisterBookTitle">Register Book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ISBN">ISBN</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="text" name="ISBN" id="ISBN" value="" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="BookName">Name</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="text" name="BookName" id="BookName" value="" />
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="control-label col-md-3" for="Pages">Pages</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="number" name="Pages" id="Pages" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-5" for="PublishDate">Publish Date</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <input class="form-control" type="date" id="PublishDate" value=""/>
+                                </div>
+                            </div>
+
+                        </div>
+                         <div class="form-group">
+                            <label class="control-label col-md-4" for="Author">Author</label>
+                            <div class="col-md-10">
+                                <div>
+                                    <select class="form-control" id="AuthorsList" required>
+                                    
+                                    </select>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    <button type="button" id="SubmitBook" class="btn btn-outline-success">Register Book</button>
+                    <button hidden id="SubmitEditedBook" class="btn btn-outline-success">Save Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<table id="RegisteredBooks" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.PageCount)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.PageCount)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.PublishDate)
+            </td>
+            <td>
+                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RegisterNewBook" id="Edit @item.ISBN"> 
+                                        Edit
+                                    </button> |
+
+                   @Html.ActionLink(
+                  "Delete", 
+                  "DeleteBook",                         // controller action
+                  "Books",        // controller
+                  new { ISBN = item.ISBN },         // action parameters aka route values
+                  new { @class = "btn btn-danger" })
+                @*<a asp-action="Details" asp-route-id="@item.ID">Details</a> |*@
+              @*  <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts{
+    <script src="~/js/BooksJS.js" asp-append-version="true"></script>
+}
